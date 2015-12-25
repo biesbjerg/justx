@@ -86,7 +86,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('CET');
+date_default_timezone_set('UTC');
 
 /**
  * Configure the mbstring extension to use the correct encoding.
@@ -97,7 +97,7 @@ mb_internal_encoding(Configure::read('App.encoding'));
  * Set the default locale. This controls how dates, number and currency is
  * formatted and sets the default language to use for translations.
  */
-ini_set('intl.default_locale', 'en_US');
+ini_set('intl.default_locale', 'da_DK');
 
 /**
  * Register application error and exception handlers.
@@ -169,6 +169,12 @@ Request::addDetector('tablet', function ($request) {
  * Inflector::rules('uninflected', ['dontinflectme']);
  * Inflector::rules('transliteration', ['/å/' => 'aa']);
  */
+Inflector::rules('transliteration', ['/å/' => 'aa']);
+Inflector::rules('transliteration', ['/æ/' => 'ae']);
+Inflector::rules('transliteration', ['/ø/' => 'oe']);
+Inflector::rules('transliteration', ['/Å/' => 'Aa']);
+Inflector::rules('transliteration', ['/Æ/' => 'Ae']);
+Inflector::rules('transliteration', ['/Ø/' => 'Oe']);
 
 /**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
@@ -185,7 +191,7 @@ Plugin::load('Migrations');
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => true]);
+	Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
 /**
